@@ -73,8 +73,12 @@ function HabitItem({ habit, visibleDates }: HabitItemProps) {
 }
 
 function getStreak(completions: Date[]) {
+  if (completions.length === 0) return 0;
+
   let streak = 0;
-  let date = new Date();
+  let date = completions.reduce((latest, completion) =>
+    completion > latest ? completion : latest
+  );
 
   while (completions.some(c => isSameDay(c, date))) {
     streak++;
